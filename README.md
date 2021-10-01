@@ -212,6 +212,8 @@ Usage of remouseable:
       --pressure-threshold int   Change the click detection sensitivity. 1000 is when the pen makes contact with the tablet. Set higher to require more pen pressure for a click. (default 1000)
       --screen-height int        The max units per millimeter of the host screen height. Probably don't change this. (default 1080)
       --screen-width int         The max units per millimeter of the host screen width. Probably don't change this. (default 1920)
+	  --screen-offset-x int      The offset on X(left to right) axis on screen. (Multimonitor)
+	  --screen-offset-y int      The offset on Y(top to bottom) axis on screen. (Multimonitor)
       --ssh-ip string            The host and port of a tablet. (default "10.11.99.1:22")
       --ssh-password string      An optional password to use when ssh-ing into the tablet. Use - for a prompt rather than entering a value. If not given then public/private keypair authentication is used.
       --ssh-socket string        Path to the SSH auth socket. This must not be empty if using public/private keypair authentication.
@@ -222,6 +224,24 @@ pflag: help requested
 exit status 2
 ```
 
+### Multimonitor Setup
+ 
+If you have more than one monitor use
+`--screen-width` and `--screen-height` to set your desired monitor resolution and then use
+`--screen-offset-x` and `--screen-offset-y` to offset the origin point of a mouse,
+by default the origin is in top-left corner of your 1st monitor.
+
+Example:
+1st monitor(1920x1080), 2nd monitor(1920x1080) is on top of the 1st one:
+`--screen-width 1920 --screen-height 1080 --screen-offset-y -1080`
+or on the right:
+`--screen-width 1920 --screen-height 1080 --screen-offset-x 1920`
+
+Those commands can also be used to "Zoom in or out".
+
+Example:
+`--screen-width 100 --screen-height 100 --screen-offset-x 100 --screen-offset-y 100`
+will make entire tablet use only a small square from (100,100)px to (200,200)px from top-left corner of a screen
 ## Common Issues And Solutions
 
 ### OSX Privacy Settings

@@ -40,6 +40,8 @@ func main() {
 	tmpScreenWidth, tmpScreenHeight, _ := driver.GetSize()
 	screenHeight := fs.Int("screen-height", tmpScreenHeight, "The max units per millimeter of the host screen height. Probably don't change this.")
 	screenWidth := fs.Int("screen-width", tmpScreenWidth, "The max units per millimeter of the host screen width. Probably don't change this.")
+	screenOffsetX := fs.Int("screen-offset-x", 0, "The offset on X(left to right) axis on screen (Multimonitor)")
+	screenOffsetY := fs.Int("screen-offset-y", 0, "The offset on Y(top to bottom) axis on screen (Multimonitor)")
 	sshIP := fs.String("ssh-ip", "10.11.99.1:22", "The host and port of a tablet.")
 	sshUser := fs.String("ssh-user", "root", "The ssh username to use when logging into the tablet.")
 	sshPassword := fs.String("ssh-password", "", "An optional password to use when ssh-ing into the tablet. Use - for a prompt rather than entering a value. If not given then public/private keypair authentication is used.")
@@ -172,8 +174,14 @@ func main() {
 		panic(fmt.Sprintf("unknown orienation selection %s", *orientation))
 	}
 
+	osc := &remouseable.OffsetPositionScaler{
+		Wrapped: sc,
+		OffsetX: *screenOffsetX,
+		OffsetY: *screenOffsetY,
+	}
+
 	rt := &remouseable.Runtime{
-		PositionScaler: sc,
+		PositionScaler: osc,
 		StateMachine:   sm,
 		Driver:         driver,
 	}
