@@ -231,16 +231,16 @@ If you have more than one monitor use
 `--screen-offset-x` and `--screen-offset-y` to offset the origin point of a mouse,
 by default the origin is in top-left corner of your 1st monitor.
 
-Example:
-1st monitor(1920x1080), 2nd monitor(1920x1080) is on top of the 1st one:
-`--screen-width 1920 --screen-height 1080 --screen-offset-y -1080`
-or on the right:
+Example:  
+1st monitor(1920x1080), 2nd monitor(1920x1080) is on top of the 1st one:  
+`--screen-width 1920 --screen-height 1080 --screen-offset-y -1080`  
+or on the right:  
 `--screen-width 1920 --screen-height 1080 --screen-offset-x 1920`
 
 Those commands can also be used to "Zoom in or out".
 
-Example:
-`--screen-width 100 --screen-height 100 --screen-offset-x 100 --screen-offset-y 100`
+Example:  
+`--screen-width 100 --screen-height 100 --screen-offset-x 100 --screen-offset-y 100`  
 will make entire tablet use only a small square from (100,100)px to (200,200)px from top-left corner of a screen
 ## Common Issues And Solutions
 
