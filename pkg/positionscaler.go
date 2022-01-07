@@ -113,3 +113,14 @@ func (s *VerticalPositionScaler) ScalePosition(x int, y int) (int, int) {
 	scaleY := float64(s.ScreenHeight) / float64(s.TabletWidth)
 	return int(scaleX * float64(x)), int(scaleY * float64(y))
 }
+
+type OffsetPositionScaler struct {
+	Wrapped PositionScaler
+	OffsetX int
+	OffsetY int
+}
+
+func (s *OffsetPositionScaler) ScalePosition(x int, y int) (int, int) {
+	x, y = s.Wrapped.ScalePosition(x, y)
+	return x + s.OffsetX, y + s.OffsetY
+}
