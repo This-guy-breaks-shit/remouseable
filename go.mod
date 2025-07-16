@@ -1,14 +1,22 @@
-module github.com/kevinconway/remouseable
+module github.com/tominator1pl/remouseable
 
-go 1.16
+go 1.23.0
+
+toolchain go1.24.5
 
 require (
-	github.com/dave/jennifer v1.3.0
+	github.com/dave/jennifer v1.7.1
+	github.com/golang/mock v1.6.0
+	github.com/spf13/pflag v1.0.6
+	github.com/stretchr/testify v1.9.0
+	golang.org/x/crypto v0.40.0
+	golang.org/x/sys v0.34.0
+)
+
+require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/golang/mock v1.3.1
-	github.com/spf13/pflag v1.0.5
-	github.com/stretchr/testify v1.4.0
-	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83
-	golang.org/x/sys v0.0.0-20210309074719-68d13333faf2
-	golang.org/x/term v0.0.0-20210220032956-6a3ed077a48d // indirect
+	github.com/kevinconway/remouseable v0.5.0 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	golang.org/x/term v0.33.0 // indirect
+	gopkg.in/yaml.v2 v2.2.2 // indirect
 )

@@ -16,7 +16,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net"
 	"os"
 	"syscall"
@@ -24,9 +24,9 @@ import (
 	flag "github.com/spf13/pflag"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 
-	remouseable "github.com/kevinconway/remouseable/pkg"
+	remouseable "github.com/tominator1pl/remouseable/pkg"
 )
 
 func main() {
@@ -56,7 +56,7 @@ func main() {
 
 	if *sshPassword == "-" {
 		fmt.Print("Enter Password: ")
-		pwd, err := terminal.ReadPassword(int(syscall.Stdin))
+		pwd, err := term.ReadPassword(int(syscall.Stdin))
 		if err != nil {
 			panic(err)
 		}
@@ -67,7 +67,16 @@ func main() {
 		Auth: []ssh.AuthMethod{
 			ssh.Password(*sshPassword),
 		},
-		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		HostKeyAlgorithms: []string{
+			"ecdsa-sha2-nistp256",
+			"ecdsa-sha2-nistp384",
+			"ecdsa-sha2-nistp521",
+			"ssh-ed25519",
+			"rsa-sha2-256",
+			"rsa-sha2-512",
+			"ssh-rsa",
+		},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(), //nolint:gosec
 	}
 	if *sshPassword == "" {
 		agentFd, err := net.Dial("unix", *sshSocket)
@@ -78,15 +87,10 @@ func main() {
 
 		agentSigner := agent.NewClient(agentFd)
 
-		sshConfig = &ssh.ClientConfig{
-			User: *sshUser,
-			Auth: []ssh.AuthMethod{
-				ssh.PublicKeysCallback(agentSigner.Signers),
-			},
-			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		sshConfig.Auth = []ssh.AuthMethod{
+			ssh.PublicKeysCallback(agentSigner.Signers),
 		}
 	}
-
 	client, err := ssh.Dial("tcp", *sshIP, sshConfig)
 	if err != nil {
 		panic(err)
@@ -107,7 +111,7 @@ func main() {
 	}
 	if *debugEvents {
 		it := &remouseable.FileEvdevIterator{
-			Source: ioutil.NopCloser(pipe),
+			Source: io.NopCloser(pipe),
 		}
 		defer it.Close()
 		fmt.Println("remouseable connected and running.")
@@ -129,7 +133,7 @@ func main() {
 
 	it := &remouseable.SelectingEvdevIterator{
 		Wrapped: &remouseable.FileEvdevIterator{
-			Source: ioutil.NopCloser(pipe),
+			Source: io.NopCloser(pipe),
 		},
 		Selection: []uint16{remouseable.EV_ABS, remouseable.EV_KEY},
 	}
