@@ -30,6 +30,8 @@
 
 ## Overview
 
+Fix of [tominator1pl/remouseable](https://github.com/tominator1pl/remouseable) by Joseph Timms - 16/07/2025
+
 I'm a user of the [reMarkable](https://remarkable.com/) tablet. After using it
 for a while I started wondering if it could be used as an input for my
 computer so I could write and draw on digital whiteboards. It turns out, it can!
